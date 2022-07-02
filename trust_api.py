@@ -185,6 +185,12 @@ parser = reqparse.RequestParser()
 parser.add_argument('data')
 
 
+tokenizer = RobertaTokenizer.from_pretrained("roberta-base") #Tokenizer
+model = build_model(3)
+model.load_weights(Roberta_Trust)
+loaded_model = pickle.load(open(polarity_model, 'rb'))
+loaded_tfidf = pickle.load(open(tfidf_model, 'rb'))
+
 # In[7]:
 
 
@@ -222,10 +228,5 @@ api.add_resource(TrustClassifier, '/trust')
 
 
 if __name__ == '__main__':
-    tokenizer = RobertaTokenizer.from_pretrained("roberta-base",) #Tokenizer
-    model = build_model(3)
-    model.load_weights(Roberta_Trust)
-    loaded_model = pickle.load(open(polarity_model, 'rb'))
-    loaded_tfidf = pickle.load(open(tfidf_model, 'rb'))
-    app.run(debug=False, port=8080)
+    app.run(port=8080)
 
